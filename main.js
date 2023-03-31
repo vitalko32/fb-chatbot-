@@ -202,7 +202,6 @@ app.post('/webhook/', async function (req, res) {
 
             redisClient.exists(userTimeoutKey, (err, exists) => {
                 if (!exists) {
-                    redisClient.set(userTimeoutKey, 'true', 'EX', 120); // Set a 2-minute (120 seconds) timeout
                     setTimeout(async () => {
                         redisClient.get(userMessagesKey, async (err, messages) => {
                             if (!err) {
@@ -232,6 +231,9 @@ app.post('/webhook/', async function (req, res) {
                 }
             });
 
+            if (!await redisClient.get(userTimeoutKey)) {
+                redisClient.set(userTimeoutKey, 'true', 'EX', 120);
+            }
         }
 
 
