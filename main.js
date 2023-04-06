@@ -223,8 +223,6 @@ app.post('/webhook/', async function (req, res) {
                                 redisClient.del(userMessagesKey);
                                 messages = null;
                                 redisClient.del(userTimeoutKey);
-
-                                return res.sendStatus(200);
                             }
                         });
                     }, 120000); // 2 minutes in milliseconds
@@ -285,4 +283,5 @@ app.post('/webhook/', async function (req, res) {
             return res.sendStatus(200);
         }
     }
+    res.sendStatus(200);
 });

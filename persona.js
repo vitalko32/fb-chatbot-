@@ -66,17 +66,20 @@ export default class Persona {
 
             // Set parentMessageId to the ID of the most recent message so that we can remember the current conversation
             parentMessageId: previousMessage ? previousMessage.id : undefined,
-    
-        });
 
-        // Log the response for debugging
-        console.log(response);
+        }).catch(() =>  'Thanks for your answer we will reply later');
 
-        // Push the response to the instance's messageHistory array so we can reference its ID in the next prompt
-        this._messageHistory.push(response);
+
+        if (response.text) {
+            // Log the response for debugging
+            console.log(response);
+
+            // Push the response to the instance's messageHistory array so we can reference its ID in the next prompt
+            this._messageHistory.push(response);
+        }
 
         // Return the text response from ChatGPT
-        return response.text;
+        return response.text ? response.text : response;
 
     }
 
